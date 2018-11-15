@@ -1,12 +1,13 @@
 use bookTraderDevdb;
+DROP TABLE IF EXISTS  forsale;
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS usertable;
 DROP TABLE IF EXISTS authors;
-DROP TABLE IF EXISTS  forsale;
+
 CREATE TABLE authors (
     id int AUTO_INCREMENT NOT NULL,
     author VARCHAR(50) NOT NULL,
-    bio VARCHAR(128),
+    bio VARCHAR(512),
     PRIMARY KEY(id)
 );
 
@@ -32,8 +33,8 @@ CREATE TABLE forsale(
     id int AUTO_INCREMENT NOT NULL,
     bookID int not null,
     sellerID int not null,
-    price FLOAT,
-    newused int,
+    price DEC,
+    newused VARCHAR(10),
     PRIMARY KEY(id),
     INDEX (bookID),
     INDEX (sellerID),
