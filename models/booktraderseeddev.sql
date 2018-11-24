@@ -1,5 +1,5 @@
 use bookTraderDevdb;
-DROP TABLE IF EXISTS  forsale;
+DROP TABLE IF EXISTS forsale;
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS usertable;
 DROP TABLE IF EXISTS authors;
