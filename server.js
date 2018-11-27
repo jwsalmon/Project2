@@ -22,7 +22,9 @@ app.engine(
 app.set("view engine", "handlebars");
 
 // Routes
-require("./routes/apiRoutes")(app);
+require("./routes/authors-api-routes")(app);
+require("./routes/books-api-routes")(app);
+require("./routes/forsale-api-routes")(app);
 require("./routes/htmlRoutes")(app);
 
 var syncOptions = { force: false };

@@ -12,13 +12,13 @@ module.exports = function (app) {
         });
     });
 
-    app.get("/api/authors/:id", function (req, res) {
+    app.get("/api/authors/:name", function (req, res) {
         // Here we add an "include" property to our options in our findOne query
         // We set the value to an array of the models we want to include in a left outer join
         // In this case, just db.Books, and db.Forsale
         db.Authors.findOne({
             where: {
-                id: req.params.id
+                id: req.params.name
             },
             include: [db.Books, db.Forsale]
         }).then(function (dbAuthors) {
