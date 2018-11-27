@@ -2,7 +2,7 @@ module.exports = function(sequelize, DataTypes) {
   var Books = sequelize.define("Books", {
     title: DataTypes.STRING,
     genre: DataTypes.STRING,
-    numpages: DataType.INTEGER
+    numpages: DataTypes.INTEGER
   });
 
   Books.associate = function(models) {
@@ -16,7 +16,6 @@ module.exports = function(sequelize, DataTypes) {
   };
   return Books;
 };
-
 
 /* id int AUTO_INCREMENT NOT NULL,
     title VARCHAR(50) NOT NULL,

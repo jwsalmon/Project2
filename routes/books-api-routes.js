@@ -38,7 +38,7 @@ module.exports = function (app) {
         // Here we add an "include" property to our options in our findOne query
         // We set the value to an array of the models we want to include in a left outer join
         // In this case, just db.Author
-        db.Books.findOne({
+        db.Books.findAll({
             where: {
                 genre: req.params.genre
             },
@@ -48,7 +48,7 @@ module.exports = function (app) {
         });
     });
     // Books route for saving a new Books
-    app.Books("/api/books", function (req, res) {
+    app.post("/api/books", function (req, res) {
         db.Books.create(req.body).then(function (Books) {
             res.json(Books);
         });
