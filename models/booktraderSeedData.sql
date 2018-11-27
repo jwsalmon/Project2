@@ -18,7 +18,7 @@ VALUES("The Rowan","Fantasy",235,1),
       ("Cobra","Science Fiction",346,3),
       ("Cobra Strike","Science Fiction",344,3);
 INSERT INTO usertable(username,passwd)
-VALUES("jessesal","123456");
+VALUES("jesse", 'Lee' ,"123456", 'jessesal@bookseller.com', '602-488-8888',);
 
 INSERT INTO forsale(bookID,sellerID,price,newused)
 values(1,1,.50,"used"),
