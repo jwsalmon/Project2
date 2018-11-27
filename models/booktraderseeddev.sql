@@ -22,10 +22,14 @@ CREATE TABLE books(
         REFERENCES authors(id)
 );
 
-CREATE TABLE usertable(
+CREATE TABLE User(
     id int AUTO_INCREMENT not null,
-    username VARCHAR(50) not null,
-    passwd VARCHAR(50) not null,
+    first VARCHAR(50) not null,
+    last VARCHAR(50) not null,
+    email VARCHAR(50) not null,
+    phone VARCHAR(50) not null,
+    password VARCHAR(50) not null,
+
     PRIMARY KEY(id)
 );
 
