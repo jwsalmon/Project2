@@ -1,14 +1,14 @@
 {
   "development": {
     "username": "root",
-    "password": "JR4n5297",
+    "password": "",
     "database": "bookTraderDevdb",
     "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "JR4n5297",
+    "password": "",
     "database": "bookTraderTstdb",
     "host": "localhost",
     "dialect": "mysql",
