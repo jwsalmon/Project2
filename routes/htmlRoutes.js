@@ -1,19 +1,22 @@
 var db = require("../models");
-
+const Op = db.sequelize.Op;
 module.exports = function(app) {
   // Find all Authors and return them to the user with res.json
   app.get("/authors", function(req, res) {
-    db.Author.findAll({}).then(function(dbAuthor) {
+    db.Author.findAll({
+      include: [db.Books, db.Forsale]
+    }).then(function(dbAuthor) {
       res.json(dbAuthor);
     });
   });
 
-  app.get("/authors/:id", function(req, res) {
+  app.get("/authors/:author", function(req, res) {
     // Find one Author with the id in req.params.id and return them to the user with res.json
     db.Author.findOne({
       where: {
-        id: req.params.id
-      }
+        author: req.params.author
+      },
+      include: [db.Books, db.Forsale]
     }).then(function(dbAuthor) {
       res.json(dbAuthor);
     });
@@ -27,34 +30,36 @@ module.exports = function(app) {
     });
   });
 
-  app.delete("/authors/:author", function(req, res) {
-    // Delete the Author with the id available to us in req.params.id
-    db.Author.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(function(dbAuthor) {
-      res.json(dbAuthor);
-    });
-  });
-
   app.get("/books", function(req, res) {
-    db.Book.findAll({}).then(function(dbBook) {
-      res.json(dbBook);
-    });
-  });
-
-  app.get("/books/:id", function(req, res) {
-    // Find one Book with the id in req.params.id and return them to the user with res.json
-    db.Book.findOne({
-      where: {
-        id: req.params.id
-      }
+    db.Book.findAll({
+      include: [db.Authors, db.Forsale]
     }).then(function(dbBook) {
       res.json(dbBook);
     });
   });
 
+  app.get("/books/:title", function(req, res) {
+    // Find one Book with the id in req.params.id and return them to the user with res.json
+    db.Book.findOne({
+      where: {
+        title: req.params.title,
+        include: [db.Authors, db.Forsale]
+      }
+    }).then(function(dbBook) {
+      res.json(dbBook);
+    });
+  });
+  app.get("/books/:genre", function(req, res) {
+    // Find one Book with the id in req.params.id and return them to the user with res.json
+    db.Book.findOne({
+      where: {
+        genre: req.params.genre,
+        include: [db.Authors, db.Forsale]
+      }
+    }).then(function(dbBook) {
+      res.json(dbBook);
+    });
+  });
   app.post("/books", function(req, res) {
     // Create a Book with the data available to us in req.body
     console.log(req.body);
@@ -63,29 +68,52 @@ module.exports = function(app) {
     });
   });
 
-  app.delete("/books/:books", function(req, res) {
-    // Delete the Book with the id available to us in req.params.id
-    db.Book.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(function(dbBook) {
-      res.json(dbBook);
-    });
-  });
-
   app.get("/forsale", function(req, res) {
-    db.ForSale.findAll({}).then(function(dbForSale) {
+    db.ForSale.findAll({
+      include: [db.Authors,db.Books]
+    }).then(function(dbForSale) {
       res.json(dbForSale);
     });
   });
 
-  app.get("/forsale/:id", function(req, res) {
+  app.get("/forsale/:newused", function(req, res) {
     // Find one ForSale with the id in req.params.id and return them to the user with res.json
     db.ForSale.findOne({
       where: {
-        id: req.params.id
-      }
+        newused: req.params.newused
+      },
+      include: [db.Authors,db.Books]
+    }).then(function(dbForSale) {
+      res.json(dbForSale);
+    });
+  });
+
+  app.get("/forsale/:priceMin:priceMax", function(req, res) {
+    // Find one ForSale with the id in req.params.id and return them to the user with res.json
+    db.ForSale.findOne({
+      where: {
+        price: { 
+          [Op.gte]: req.params.priceMin,
+          [Op.lte]: req.params.priceMax
+        }
+      },
+      include: [db.Authors,db.Books]
+    }).then(function(dbForSale) {
+      res.json(dbForSale);
+    });
+  });
+
+  app.get("/forsale/:priceMin:priceMax:newused", function(req, res) {
+    // Find one ForSale with the id in req.params.id and return them to the user with res.json
+    db.ForSale.findOne({
+      where: {
+        newused: req.params.newused,
+        price: { 
+            [Op.gte]: req.params.priceMin,
+            [Op.lte]: req.params.priceMax
+        }
+      },
+      include: [db.Authors,db.Books]
     }).then(function(dbForSale) {
       res.json(dbForSale);
     });
@@ -99,7 +127,7 @@ module.exports = function(app) {
     });
   });
 
-  app.delete("/forsale/:forsale", function(req, res) {
+  app.delete("/forsale/:id", function(req, res) {
     // Delete the ForSale with the id available to us in req.params.id
     db.ForSale.destroy({
       where: {
@@ -110,75 +138,39 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/index", function(req, res) {
-    db.Index.findAll({}).then(function(dbIndex) {
-      res.json(dbIndex);
+  app.get("/user", function(req, res) {
+    db.User.findAll({}).then(function(dbUser) {
+      res.json(dbUser);
     });
   });
 
-  app.get("/index/:id", function(req, res) {
-    // Find one Index with the id in req.params.id and return them to the user with res.json
-    db.Index.findOne({
+  app.get("/user/:email:", function(req, res) {
+    // Find one User with the id in req.params.id and return them to the user with res.json
+    db.User.findOne({
       where: {
-        id: req.params.id
+        email: req.params.email
       }
-    }).then(function(dbIndex) {
-      res.json(dbIndex);
+    }).then(function(dbUser) {
+      res.json(dbUser);
     });
   });
 
-  app.post("/index", function(req, res) {
-    // Create an Index with the data available to us in req.body
+  app.post("/user", function(req, res) {
+    // Create an User with the data available to us in req.body
     console.log(req.body);
-    db.Index.create(req.body).then(function(dbIndex) {
-      res.json(dbIndex);
+    db.User.create(req.body).then(function(dbUser) {
+      res.json(dbUser);
     });
   });
 
-  app.delete("/index/:index", function(req, res) {
-    // Delete the Index with the id available to us in req.params.id
-    db.Index.destroy({
+  app.delete("/user/:email", function(req, res) {
+    // Delete the User with the id available to us in req.params.id
+    db.User.destroy({
       where: {
-        id: req.params.id
+        email: req.params.email
       }
-    }).then(function(dbIndex) {
-      res.json(dbIndex);
-    });
-  });
-
-  app.get("/usertable", function(req, res) {
-    db.UserTable.findAll({}).then(function(dbUserTable) {
-      res.json(dbUserTable);
-    });
-  });
-
-  app.get("/usertable/:id", function(req, res) {
-    // Find one UserTable with the id in req.params.id and return them to the user with res.json
-    db.UserTable.findOne({
-      where: {
-        id: req.params.id
-      }
-    }).then(function(dbUserTable) {
-      res.json(dbUserTable);
-    });
-  });
-
-  app.post("/usertable", function(req, res) {
-    // Create an UserTable with the data available to us in req.body
-    console.log(req.body);
-    db.UserTable.create(req.body).then(function(dbUserTable) {
-      res.json(dbUserTable);
-    });
-  });
-
-  app.delete("/usertable/:usertable, function(req, res) {
-    // Delete the UserTable with the id available to us in req.params.id
-    db.UserTable.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(function(dbUserTable) {
-      res.json(dbUserTable);
+    }).then(function(dbUser) {
+      res.json(dbUser);
     });
   });
 };

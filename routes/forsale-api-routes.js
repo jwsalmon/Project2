@@ -1,5 +1,7 @@
 var db = require("../models");
+
 const Op = db.sequelize.Op;
+
 module.exports = function(app) {
 // GET route for getting all of the books for sale
   app.get("/api/forsale", function(req, res) {
@@ -18,7 +20,7 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/api/forsale:newused", function(req, res) {
+  app.get("/api/forsale/:newused", function(req, res) {
     db.Forsale.findAll({
         where: {
             newused: req.params.newused
@@ -29,7 +31,7 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/api/forsale:priceMin:priceMax", function(req, res) {
+  app.get("/api/forsale/:priceMin:priceMax", function(req, res) {
     db.Forsale.findAll({
         where: {
             price: { 
@@ -43,7 +45,7 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/api/forsale:newused:priceMin:priceMax", function(req,res){
+  app.get("/api/forsale:newused/:priceMin:priceMax", function(req,res){
     db.Forsale.findAll({
         where: {
             newused: req.params.newused,
