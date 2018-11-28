@@ -6,6 +6,7 @@ module.exports = function(sequelize, DataTypes) {
     var Forsale = sequelize.define("Forsale", {
       price: DataTypes.DECIMAL,
       newused: DataTypes.STRING
+      
     });
   
     Forsale.associate = function(models) {

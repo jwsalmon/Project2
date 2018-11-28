@@ -12,13 +12,14 @@ module.exports = (sequelize, DataTypes) => {
         last      : DataTypes.STRING,
         email     : {type: DataTypes.STRING, allowNull: true, unique: true, validate: { isEmail: {msg: "Phone number invalid."} }},
         phone     : {type: DataTypes.STRING, allowNull: true, unique: true, validate: { len: {args: [7, 20], msg: "Phone number invalid, too short."}, isNumeric: { msg: "not a valid phone number."} }},
-        password  : DataTypes.STRING,
+        password  : DataTypes.STRING
     });
 
-/*associations 
-User.associate = function(models){
-    this.Companies = this.belongsToMany(models.Company, {through: 'UserCompany'});
-};*/
+//associations 
+User.associate = function(models) {
+    User.hasMany(models.Forsale);
+    //this.Companies = this.belongsToMany(models.Company, {through: 'UserCompany'});
+};
 
 //hash password on save or update 
 User.beforeSave(async (user, options) => {
@@ -56,5 +57,6 @@ User.prototype.getJWT = function () {
 };
 
 //return model 
+  
 return User;
 };

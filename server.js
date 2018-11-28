@@ -26,7 +26,7 @@ require("./routes/authors-api-routes")(app);
 require("./routes/books-api-routes")(app);
 require("./routes/forsale-api-routes")(app);
 require("./routes/htmlRoutes")(app);
-require("./routes/user-api-routes")(app);
+//require("./routes/user-api-routes")(app);
 
 var syncOptions = { force: false };
 

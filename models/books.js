@@ -13,6 +13,7 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false
       }
     });
+    Books.hasMany(models.Forsale);
   };
   return Books;
 };
