@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
           allowNull: false
         }
       });
-      Forsale.belongsTo(models.Usertable, {
+      Forsale.belongsTo(models.User, {
         foreignKey: {
           allowNull: false
         }

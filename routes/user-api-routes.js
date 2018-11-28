@@ -1,6 +1,6 @@
 const express  = require('express');
 const router  = express.Router();
-const UserController   = require('../controllers/user.controller');
+const UserController   = require('../controller/user.controller');
 const path = require('path');
 
 require('./../middleware/passport')(passport)
