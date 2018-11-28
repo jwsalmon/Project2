@@ -7,7 +7,7 @@ const CONFIG = require('../config/config');
 
 //builds schema with hooks and custom methods 
 module.exports = (sequelize, DataTypes) => {
-    var Model = sequelize.define('User', {
+    var User = sequelize.define('User', {
         first     : DataTypes.STRING,
         last      : DataTypes.STRING,
         email     : {type: DataTypes.STRING, allowNull: true, unique: true, validate: { isEmail: {msg: "Phone number invalid."} }},
@@ -15,13 +15,13 @@ module.exports = (sequelize, DataTypes) => {
         password  : DataTypes.STRING,
     });
 
-//associations 
-Model.associate = function(models){
+/*associations 
+User.associate = function(models){
     this.Companies = this.belongsToMany(models.Company, {through: 'UserCompany'});
-};
+};*/
 
 //hash password on save or update 
-Model.beforeSave(async (user, options) => {
+User.beforeSave(async (user, options) => {
     let err;
     if (user.changed('password')){
         let salt, hash
@@ -36,7 +36,7 @@ Model.beforeSave(async (user, options) => {
 });
 
 //compares password 
-Model.prototype.comparePassword = async function (pw) {
+User.prototype.comparePassword = async function (pw) {
     let err, pass
     if(!this.password) TE('password not set');
 
@@ -50,11 +50,11 @@ Model.prototype.comparePassword = async function (pw) {
 
 //JSON web Token for Authentication 
 
-Model.prototype.getJWT = function () {
+User.prototype.getJWT = function () {
     let expiration_time = parseInt(CONFIG.jwt_expiration);
     return "Bearer "+jwt.sign({user_id:this.id}, CONFIG.jwt_encryption, {expiresIn: expiration_time});
 };
 
 //return model 
-return Model;
+return User;
 };
